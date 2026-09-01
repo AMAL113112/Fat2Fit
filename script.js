@@ -1,4 +1,3 @@
-```javascript
 // ==========================================
 // FAT 2 FIT - MAIN JAVASCRIPT
 // ==========================================
@@ -9,11 +8,8 @@ document.addEventListener("DOMContentLoaded", () => {
     initScrollAnimations();
     initActiveNavigation();
     createScrollProgress();
-    initFitnessAssessment();
-    initContactForm();
 
 });
-
 
 // ==========================================
 // SMOOTH SCROLL
@@ -50,7 +46,6 @@ function initSmoothScrolling() {
 
 }
 
-
 // ==========================================
 // SCROLL ANIMATION
 // ==========================================
@@ -60,9 +55,6 @@ function initScrollAnimations() {
     const elements = document.querySelectorAll(
         ".hero, .about, .trainer, .services, .gallery, .membership, .fitness, .testimonials, .contact"
     );
-
-    // Stop if there are no elements
-    if (!elements.length) return;
 
     const observer = new IntersectionObserver((entries) => {
 
@@ -92,7 +84,6 @@ function initScrollAnimations() {
 
 }
 
-
 // ==========================================
 // ACTIVE NAV LINK
 // ==========================================
@@ -101,8 +92,6 @@ function initActiveNavigation() {
 
     const sections = document.querySelectorAll("section");
     const navLinks = document.querySelectorAll(".nav-links a");
-
-    if (!sections.length || !navLinks.length) return;
 
     window.addEventListener("scroll", () => {
 
@@ -113,7 +102,7 @@ function initActiveNavigation() {
             const top = section.offsetTop - 120;
             const height = section.offsetHeight;
 
-            if (window.scrollY >= top) {
+            if (pageYOffset >= top) {
 
                 current = section.getAttribute("id");
 
@@ -137,7 +126,6 @@ function initActiveNavigation() {
 
 }
 
-
 // ==========================================
 // SCROLL PROGRESS BAR
 // ==========================================
@@ -155,9 +143,6 @@ function createScrollProgress() {
         const totalHeight =
             document.documentElement.scrollHeight - window.innerHeight;
 
-        // Prevent division by zero
-        if (totalHeight <= 0) return;
-
         const progressWidth =
             (window.scrollY / totalHeight) * 100;
 
@@ -167,213 +152,107 @@ function createScrollProgress() {
 
 }
 
-
 // ==========================================
 // FITNESS ASSESSMENT
 // ==========================================
 
-function initFitnessAssessment() {
+const calculateBtn = document.getElementById("calculateBtn");
 
-    const calculateBtn = document.getElementById("calculateBtn");
-
-    if (!calculateBtn) return;
+if (calculateBtn) {
 
     calculateBtn.addEventListener("click", () => {
 
-        // ==========================================
-        // GET INPUT VALUES
-        // ==========================================
-
-        const age = parseInt(
-            document.getElementById("age").value
-        );
-
+        const age = parseInt(document.getElementById("age").value);
         const gender = document.getElementById("gender").value;
-
-        const height = parseFloat(
-            document.getElementById("height").value
-        );
-
-        const weight = parseFloat(
-            document.getElementById("weight").value
-        );
-
+        const height = parseFloat(document.getElementById("height").value);
+        const weight = parseFloat(document.getElementById("weight").value);
         const goal = document.getElementById("goal").value;
 
-
-        // ==========================================
-        // VALIDATION
-        // ==========================================
-
         if (!age || !gender || !height || !weight || !goal) {
-
             alert("Please fill in all the required fields.");
-
             return;
-
         }
 
-
-        // ==========================================
+        // ==========================
         // BMI
-        // ==========================================
+        // ==========================
 
-        const bmi =
-            weight / Math.pow(height / 100, 2);
+        const bmi = weight / Math.pow(height / 100, 2);
 
         let bmiStatus = "";
 
-
         if (bmi < 18.5) {
-
             bmiStatus = "Underweight";
-
         } else if (bmi < 25) {
-
             bmiStatus = "Normal";
-
         } else if (bmi < 30) {
-
             bmiStatus = "Overweight";
-
         } else {
-
             bmiStatus = "Obese";
-
         }
 
-
-        // ==========================================
-        // CALORIES
-        // ==========================================
+        // ==========================
+        // Calories
+        // ==========================
 
         let calories;
 
-
         if (gender === "male") {
-
-            calories =
-                (10 * weight) +
-                (6.25 * height) -
-                (5 * age) +
-                5;
-
+            calories = (10 * weight) + (6.25 * height) - (5 * age) + 5;
         } else {
-
-            calories =
-                (10 * weight) +
-                (6.25 * height) -
-                (5 * age) -
-                161;
-
+            calories = (10 * weight) + (6.25 * height) - (5 * age) - 161;
         }
-
 
         if (goal === "loss") {
-
             calories -= 500;
-
         } else if (goal === "gain") {
-
             calories += 300;
-
         }
 
-
-        // ==========================================
-        // PROTEIN
-        // ==========================================
+        // ==========================
+        // Protein
+        // ==========================
 
         let protein;
 
-
         if (goal === "loss") {
-
             protein = weight * 1.8;
-
         } else if (goal === "gain") {
-
             protein = weight * 2.2;
-
         } else {
-
             protein = weight * 1.6;
-
         }
 
-
-        // ==========================================
-        // WATER
-        // ==========================================
+        // ==========================
+        // Water
+        // ==========================
 
         const water = weight * 0.035;
 
+        // ==========================
+        // Display Results
+        // ==========================
 
-        // ==========================================
-        // DISPLAY RESULTS
-        // ==========================================
+        document.getElementById("bmiValue").textContent =
+            bmi.toFixed(1);
 
-        const bmiValue =
-            document.getElementById("bmiValue");
+        document.getElementById("bmiStatus").textContent =
+            bmiStatus;
 
-        const bmiStatusElement =
-            document.getElementById("bmiStatus");
+        document.getElementById("caloriesValue").textContent =
+            Math.round(calories);
 
-        const caloriesValue =
-            document.getElementById("caloriesValue");
+        document.getElementById("proteinValue").textContent =
+            Math.round(protein);
 
-        const proteinValue =
-            document.getElementById("proteinValue");
+        document.getElementById("waterValue").textContent =
+            water.toFixed(1);
 
-        const waterValue =
-            document.getElementById("waterValue");
-
-        const dietContent =
-            document.getElementById("dietContent");
-
-
-        if (bmiValue) {
-
-            bmiValue.textContent =
-                bmi.toFixed(1);
-
-        }
-
-        if (bmiStatusElement) {
-
-            bmiStatusElement.textContent =
-                bmiStatus;
-
-        }
-
-        if (caloriesValue) {
-
-            caloriesValue.textContent =
-                Math.round(calories);
-
-        }
-
-        if (proteinValue) {
-
-            proteinValue.textContent =
-                Math.round(protein);
-
-        }
-
-        if (waterValue) {
-
-            waterValue.textContent =
-                water.toFixed(1);
-
-        }
-
-
-        // ==========================================
-        // DIET PLAN
-        // ==========================================
+        // ==========================
+        // Diet Plan
+        // ==========================
 
         let dietHTML = "";
-
 
         if (goal === "loss") {
 
@@ -418,17 +297,11 @@ function initFitnessAssessment() {
 
         }
 
-
-        if (dietContent) {
-
-            dietContent.innerHTML = dietHTML;
-
-        }
+        document.getElementById("dietContent").innerHTML = dietHTML;
 
     });
 
 }
-
 
 // ==========================================
 // CONTACT FORM - WHATSAPP
@@ -436,44 +309,31 @@ function initFitnessAssessment() {
 
 function initContactForm() {
 
-    const contactForm =
-        document.getElementById("contactForm");
+    const contactForm = document.getElementById("contactForm");
+    const whatsappBtn = document.getElementById("whatsappBtn");
 
-    if (!contactForm) return;
+    if (!contactForm || !whatsappBtn) {
+        console.error("WhatsApp form elements not found.");
+        return;
+    }
 
-
-    contactForm.addEventListener("submit", function (e) {
-
-        e.preventDefault();
-
+    whatsappBtn.addEventListener("click", function () {
 
         // ==========================================
         // GET FORM VALUES
         // ==========================================
 
         const name =
-            contactForm
-                .querySelector('input[name="Name"]')
-                .value
-                .trim();
+            contactForm.querySelector('input[name="Name"]').value.trim();
 
         const email =
-            contactForm
-                .querySelector('input[name="Email"]')
-                .value
-                .trim();
+            contactForm.querySelector('input[name="Email"]').value.trim();
 
         const phone =
-            contactForm
-                .querySelector('input[name="Phone"]')
-                .value
-                .trim();
+            contactForm.querySelector('input[name="Phone"]').value.trim();
 
         const message =
-            contactForm
-                .querySelector('textarea[name="Message"]')
-                .value
-                .trim();
+            contactForm.querySelector('textarea[name="Message"]').value.trim();
 
 
         // ==========================================
@@ -485,7 +345,6 @@ function initContactForm() {
             alert("Please fill in all the fields.");
 
             return;
-
         }
 
 
@@ -518,31 +377,25 @@ Sent from Fat2Fit Website`;
         // WHATSAPP NUMBER
         // ==========================================
 
-        // Country code +91
-        // Remove +, spaces and special characters
-
-        const whatsappNumber =
-            "919744421050";
+        const whatsappNumber = "919744421050";
 
 
         // ==========================================
-        // CREATE WHATSAPP URL
+        // CREATE URL
         // ==========================================
 
         const whatsappURL =
-            "https://wa.me/" +
-            whatsappNumber +
-            "?text=" +
-            encodeURIComponent(whatsappMessage);
+            `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`;
 
 
         // ==========================================
         // OPEN WHATSAPP
         // ==========================================
 
-        window.location.assign(whatsappURL);
+        console.log("WhatsApp URL:", whatsappURL);
+
+        window.location.href = whatsappURL;
 
     });
 
 }
-```
