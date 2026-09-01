@@ -302,3 +302,56 @@ if (calculateBtn) {
     });
 
 }
+
+/*=========================================
+        CONTACT FORM - WHATSAPP
+=========================================*/
+
+const contactForm = document.getElementById("contactForm");
+
+if (contactForm) {
+
+    contactForm.addEventListener("submit", function (e) {
+
+        e.preventDefault();
+
+        const name = document.querySelector('input[name="Name"]').value.trim();
+        const email = document.querySelector('input[name="Email"]').value.trim();
+        const phone = document.querySelector('input[name="Phone"]').value.trim();
+        const message = document.querySelector('textarea[name="Message"]').value.trim();
+
+        // Validation
+        if (!name || !email || !phone || !message) {
+            alert("Please fill in all the fields.");
+            return;
+        }
+
+        const whatsappMessage =
+`━━━━━━━━━━━━━━━━━━━━━━
+🏋️ FAT2FIT FITNESS CLUB
+━━━━━━━━━━━━━━━━━━━━━━
+
+👤 Name
+${name}
+
+📧 Email
+${email}
+
+📱 Phone
+${phone}
+
+💬 Message
+${message}
+
+━━━━━━━━━━━━━━━━━━━━━━
+Sent from Fat2Fit Website`;
+
+        const whatsappURL =
+`https://wa.me/919744421050?text=${encodeURIComponent(whatsappMessage)}`;
+
+       window.location.href = whatsappURL;
+
+
+    });
+
+}
